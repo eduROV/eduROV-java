@@ -3,7 +3,7 @@ This file will list all the libraries and programs that need to be installed on 
 apt: 
 node
 npm 
-
+ffmpeg
 
 npm:
 
