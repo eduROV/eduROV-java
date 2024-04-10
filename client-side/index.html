@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<header>
+
+<h1>eduROV simple</h1>
+</header>
+
+<body>
+<!-- Video element to display the stream -->
+<video id="video" width="640" height="480" autoplay></video>
+<script>
+  const video = document.getElementById('video'); // Get the video element by ID
+  // Create a new WebSocket connection to the Raspberry Pi server
+  const ws = new WebSocket('ws://edurov.local:8080'); 
+
+  // Event listener for messages (video data) received from the WebSocket server
+  ws.onmessage = function(event) {
+    // Create a Blob from the received video data
+    const blob = new Blob([event.data], { type: 'video/h264' });
+    // Create an Object URL from the Blob
+    const url = URL.createObjectURL(blob);
+    // Set the video source to the Object URL to play the video
+    video.src = url;
+  };
+</script>
+</body>
+</html>
