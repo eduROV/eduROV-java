@@ -1,1 +1,9 @@
 This file will list all the libraries and programs that need to be installed on the Raspberry Pi for the code to work as it should.
+
+apt: 
+node
+npm 
+
+
+npm:
+

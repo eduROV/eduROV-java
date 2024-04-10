@@ -1,8 +1,13 @@
 {
-    "name": "eduROV-java server"
-    "version": "v0.0.1"
-},
-"dependencies": {
-    "ws": "^8.16.0"
+    "name": "eduROV-java-server",
+    "version": "v0.0.1",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodejs index.js"
+    },
+    "dependencies": {
+        "ws": "^8.16.0"
+    },
+    "author": "Kristoffer Loxley-Slåttsveen",
+    "license": "GNUv3"
 }
-
