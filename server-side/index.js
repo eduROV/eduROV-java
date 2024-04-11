@@ -1,37 +1,36 @@
-const WebSocket = require('ws');
+// Import necessary modules
+const express = require('express');
 const { spawn } = require('child_process');
 
-// Create a WebSocket server listening on port 8080
-const wss = new WebSocket.Server({ port: 8080 });
+// Create an Express application
+const app = express();
+const port = 3000; // Server port
 
-wss.on('connection', function connection(ws) {
-  console.log('Client connected');
+// Route for accessing the video stream
+app.get('/video-stream', (req, res) => {
+  res.connection.setTimeout(0); // Set timeout to zero for a continuous stream
 
-  // Spawn an FFmpeg process to capture and convert video to fragmented MP4
-  const ffmpeg = spawn('ffmpeg', [
-    '-i', '-', // Input from stdin (standard input)
-    '-f', 'mp4', // Set format to MP4
-    '-movflags', 'frag_keyframe+empty_moov', // Use fragmented MP4 flags
-    '-vcodec', 'libx264', // Use the H.264 video codec
-    '-preset', 'ultrafast', // Ultrafast preset for minimal CPU usage
-    '-tune', 'zerolatency', // Tune for zerolatency
-    '-', // Output to stdout (standard output)
-  ]);
+  console.log('Stream Connected');
 
-  // Set up raspivid to pipe video to FFmpeg
-  const raspivid = spawn('raspivid', ['-t', '0', '-o', '-', '-w', '640', '-h', '480', '-fps', '20']);
-  raspivid.stdout.pipe(ffmpeg.stdin);
+  // Spawn the raspivid process to capture video from the Raspberry Pi Camera
+  // '-o -' outputs the video to stdout, '-t 0' makes it run indefinitely
+  // '-w' and '-h' set the width and height of the video respectively
+  const raspivid = spawn('raspivid', ['-o', '-', '-t', '0', '-w', '640', '-h', '480']);
 
-  // When FFmpeg produces data, send it to the WebSocket client
-  ffmpeg.stdout.on('data', (data) => {
-    ws.send(data, { binary: true });
+  // Pipe the video data to the response object to stream it to the client
+  raspivid.stdout.pipe(res);
+
+  // Handle any errors from raspivid
+  raspivid.stderr.on('data', (data) => {
+    console.error(`raspivid error: ${data}`);
   });
 
-  ws.on('close', () => {
-    console.log('Client disconnected');
-    raspivid.kill('SIGINT');
-    ffmpeg.kill('SIGINT');
+  // Handle stream closure
+  raspivid.on('close', () => {
+    console.log('Stream Closed');
+    res.end();
   });
 });
 
-console.log('Server running on port 8080');
+// Start the server
+app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
