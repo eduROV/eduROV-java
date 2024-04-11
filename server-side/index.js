@@ -1,6 +1,6 @@
 // Import necessary modules
 const express = require('express');
-const { VideoCapture } = require('libvideo');
+const { VideoCapture } = require('libcamera');
 
 // Create an Express application
 const app = express();
