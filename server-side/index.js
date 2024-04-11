@@ -1,32 +1,36 @@
 // Import necessary modules
 const express = require('express');
-const { spawn } = require('child_process');
+const { VideoCapture } = require('libvideo');
 
 // Create an Express application
 const app = express();
-const port = 3000; // Server port
+const port = 3000;
+
+// Initialize video capture
+const video = new VideoCapture(0); // 0 is usually the default camera
+video.setFormat(640, 480); // Set the desired format, width x height
 
 // Route for accessing the video stream
 app.get('/video-stream', (req, res) => {
   res.connection.setTimeout(0); // Set timeout to zero for a continuous stream
-
   console.log('Stream Connected');
 
-  // Spawn the raspivid process to capture video from the Raspberry Pi Camera
-  // '-o -' outputs the video to stdout, '-t 0' makes it run indefinitely
-  // '-w' and '-h' set the width and height of the video respectively
-  const raspivid = spawn('raspivid', ['-o', '-', '-t', '0', '-w', '640', '-h', '480']);
+  // Function to capture and send video frames
+  const sendFrame = () => {
+    try {
+      const frame = video.read();
+      res.write(frame);
+      setImmediate(sendFrame);
+    } catch (err) {
+      console.error('Error capturing video frame:', err);
+    }
+  };
 
-  // Pipe the video data to the response object to stream it to the client
-  raspivid.stdout.pipe(res);
-
-  // Handle any errors from raspivid
-  raspivid.stderr.on('data', (data) => {
-    console.error(`raspivid error: ${data}`);
-  });
+  // Start sending frames
+  sendFrame();
 
   // Handle stream closure
-  raspivid.on('close', () => {
+  req.on('close', () => {
     console.log('Stream Closed');
     res.end();
   });
