@@ -6,3 +6,4 @@ npm
 
 npm:
 express
+rpicam

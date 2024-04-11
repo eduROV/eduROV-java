@@ -1,37 +1,40 @@
 // Import necessary modules
 const express = require('express');
-const { VideoCapture } = require('libcamera');
+const RpiCam = require('rpicam');
 
 // Create an Express application
 const app = express();
 const port = 3000;
 
-// Initialize video capture
-const video = new VideoCapture(0); // 0 is usually the default camera
-video.setFormat(640, 480); // Set the desired format, width x height
+// Initialize the Raspberry Pi camera
+const camera = new RpiCam({
+  mode: "video",
+  output: "-", // Output to stdout
+  width: 640,
+  height: 480,
+  timeout: 999999999, // Keep the camera running
+  nopreview: true,
+});
 
 // Route for accessing the video stream
 app.get('/video-stream', (req, res) => {
   res.connection.setTimeout(0); // Set timeout to zero for a continuous stream
   console.log('Stream Connected');
 
-  // Function to capture and send video frames
-  const sendFrame = () => {
-    try {
-      const frame = video.read();
-      res.write(frame);
-      setImmediate(sendFrame);
-    } catch (err) {
-      console.error('Error capturing video frame:', err);
-    }
-  };
+  // Start the camera
+  camera.start();
 
-  // Start sending frames
-  sendFrame();
+  // Pipe the video data to the response object
+  camera.on('read', (error, timestamp, filename) => {
+    if (!error) {
+      res.write(filename);
+    }
+  });
 
   // Handle stream closure
   req.on('close', () => {
     console.log('Stream Closed');
+    camera.stop();
     res.end();
   });
 });
