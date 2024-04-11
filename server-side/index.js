@@ -1,8 +1,8 @@
 // Import necessary modules
 const express = require('express');
-const RpiCam = require('rpicam');
+const RpiCam = require('rpicam-vid');
 
-// Create an Express application
+// Create an Express applications
 const app = express();
 const port = 3000;
 
