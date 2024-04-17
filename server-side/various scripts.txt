@@ -1,0 +1,5 @@
+THis file will hold the BASH scricts that will be used to run other commands than the server itself. 
+
+Looking into setting up an MJPEG stream that can be read directly in HTML5. 
+
+The target script is somehting like: <img src="http://[some ip]:[port]/mjpg">
