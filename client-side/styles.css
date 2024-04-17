@@ -1,0 +1,42 @@
+/*
+This is a CSS comment..
+
+This file is used to style the elements of the HTML page that makes up the GUI [Graphical User Interface] for the eduROV
+*/
+
+div {
+    border: 2px solid blue;
+    border-radius: 5px;
+    margin: 10px 10px;
+    padding: 10px;
+    
+}
+
+#sensor-data {
+    float: left;
+    text-align: left;
+    /* border: 1px solid black;
+    border-radius: 5px;
+    padding 20px;
+*/
+}
+
+#button-panel {
+    float: right;
+    text-align: center;
+    /*  border: 1px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    */
+}
+
+#video-div {
+    float: center;
+    text-align: center;
+    /*
+    border: 3px solid blue;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 5px 10px;
+    */
+}

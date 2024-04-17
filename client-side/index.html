@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <!--The HTML site will act as the GUI for the eduROV, the contents will have to grow gradually-->
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eduROV java</title>
+   <!--  commenting out the CSS file to see the elements in pure HTML first
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+-->
 </head>
-<body>
-    
 
-    <script>
-       
-    </script>
+<body>
+    <h1>eduROV</h1>
+    <div id="sensor-data">
+        <p>
+            <table>
+                <tr>
+                    <th>Sensor type</th>
+                    <th>Sensor data</th>
+                </tr>
+                <tr>
+                    <th>Temperature</th>
+                    <th>15 degrees</th>
+                </tr>
+            </table>
+        </p>
+    </div>
+
+    <div id="video-div">
+        <p>
+            <img src="other-files/skrog.jpg" alt="skrog"></img>
+        </p>
+    </div>
+
+    <div id="button-panel">
+        <p>
+            <input type="text" id="hostname" name="hostname"><br>
+            <input type="button" id="connectButton" name="connectButton" value="Connect to eduROV">
+            <br>
+            <br>
+            <input type="button" id="armButton" value="Arm motors"><br>
+            <input type="button" id="lightsButton" value="Lights"><br>
+        </p>
+    </div>
+
 </body>
+
 </html>
