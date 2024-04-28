@@ -4,39 +4,34 @@ This is a CSS comment..
 This file is used to style the elements of the HTML page that makes up the GUI [Graphical User Interface] for the eduROV
 */
 
-div {
-    border: 2px solid blue;
+.container {
+    border: 5px solid blue;
     border-radius: 5px;
-    margin: 10px 10px;
-    padding: 10px;
-    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-evenly;
+    margin: 20px;
+    height: 80vh;
 }
 
-#sensor-data {
-    float: left;
-    text-align: left;
-    /* border: 1px solid black;
+.sidepanel {
+    border: 5px solid black;
     border-radius: 5px;
-    padding 20px;
-*/
+    background-color: bisque;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 }
 
-#button-panel {
-    float: right;
-    text-align: center;
-    /*  border: 1px solid black;
-    border-radius: 5px;
-    padding: 20px;
-    */
+.video {
+    background-color:cadetblue;
+    justify-content: center;
+    /*align-items: center;*/
+    flex-grow: 2;
 }
-
-#video-div {
-    float: center;
-    text-align: center;
-    /*
-    border: 3px solid blue;
-    border-radius: 5px;
-    padding: 20px;
-    margin: 5px 10px;
-    */
+.video img{
+    justify-content: center;
+    width:auto;
+    height: 100%;
 }
